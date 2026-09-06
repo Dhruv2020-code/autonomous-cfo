@@ -2,6 +2,10 @@ import json
 import streamlit as st
 from openai import OpenAI
 
+def trigger_dodo_webhook(payload: dict):
+    """Simulates automated vendor settlement via Dodo Payments API."""
+    return {"status": "success", "transaction_id": f"DODO_TXN_{payload['invoice_id']}"}
+
 st.set_page_config(page_title="Autonomous CFO - 3-Way Match", layout="wide")
 
 st.sidebar.title("⚙️ Agent Settings")
@@ -154,6 +158,13 @@ else:
             
             btn_col1, btn_col2 = st.columns(2)
             if btn_col1.button(f"Approve Adjustment & Post GL ({item['id']})", key=f"app_{idx}"):
+                # Dodo Payments trigger on approval
+                trigger_dodo_webhook({
+                    "invoice_id": item["invoice"]["inv_id"],
+                    "vendor": item["vendor"],
+                    "amount": item["invoice"]["total_amount"],
+                    "po_id": item["po"]["po_id"]
+                })
                 st.session_state.completed_ledger.append(item)
                 st.session_state.review_queue.pop(idx)
                 st.rerun()
