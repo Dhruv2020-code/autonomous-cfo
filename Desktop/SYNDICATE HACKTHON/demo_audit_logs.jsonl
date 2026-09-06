@@ -1,0 +1,2 @@
+{"event_type": "batch_created", "timestamp": "2026-09-06T14:52:14.380221", "batch_id": "DEMO-20260906145214", "total_invoices": 3, "log_id": "LOG-000001"}
+{"event_type": "batch_audit_completed", "timestamp": "2026-09-06T14:52:14.385187", "batch_id": "DEMO-20260906145214", "auto_approved": 0, "exceptions_flagged": 3, "log_id": "LOG-000002"}
