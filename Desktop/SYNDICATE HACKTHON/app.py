@@ -245,8 +245,6 @@ st.divider()
 
 col1, col2, col3, col4 = st.columns(4)
 
-batch_summary = orchestrator.get_batch_summary()
-
 col1.metric("Batches Processed", orchestrator.stats["total_processed"] // max(len(sample_batch), 1))
 col2.metric("Auto-Approved ✅", orchestrator.stats["auto_approved"])
 col3.metric("Exceptions Flagged ⚠️", orchestrator.stats["exceptions_flagged"])

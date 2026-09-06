@@ -8,7 +8,7 @@ Neatlogs Integration Module
 import json
 import csv
 from datetime import datetime
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List
 from io import StringIO
 
 

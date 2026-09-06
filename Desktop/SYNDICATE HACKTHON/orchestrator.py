@@ -6,18 +6,12 @@ Agent Orchestrator (AO)
 - Tracks batch processing
 """
 
-import json
 import time
 from enum import Enum
 from typing import Dict, List, Any
 from datetime import datetime
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from neatlogs_integration import NeatLogger
-
-class AgentOrchestrator:
-    def __init__(self, api_key: str, model_name: str = "glm-4-7-flash"):
-        self.neat_logger = NeatLogger()  # ← Initialize here
-
 
 class InvoiceStatus(Enum):
     """Invoice processing states"""
