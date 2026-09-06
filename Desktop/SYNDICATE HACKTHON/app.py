@@ -1,7 +1,7 @@
 """
-Updated app.py - FIXED VERSION
+Updated app.py - POLISHED UX VERSION
 Integrated with Agent Orchestrator and Neatlogs
-Complete AP automation with full audit trail
+Complete AP automation with accountant-friendly UI & full audit trail
 """
 
 import json
@@ -229,8 +229,11 @@ if st.button("🚀 Audit Batch (3-Way Matching with Orchestrator & Neatlogs)"):
             timestamp=datetime.now().isoformat()
         )
         
-        st.success(f"✅ Batch {batch_id} processed!")
-        st.json(summary)
+        st.success(f"✅ Batch {batch_id} processed successfully!")
+        
+        # FIX 1: Wrapped raw JSON in an expander for clean UI
+        with st.expander("🔍 View Technical Batch Summary Payload"):
+            st.json(summary)
 
 
 st.divider()
@@ -278,24 +281,26 @@ else:
             
             with c1:
                 st.markdown("**📋 Document Comparison:**")
-                st.json({
-                    "PO Data": item["po"],
-                    "Receiving Log (GRN)": item["grn"],
-                    "Vendor Invoice": item["invoice"]
-                })
+                # FIX 2: Wrapped document raw payload inside an expander
+                with st.expander("📄 View PO, GRN & Invoice Raw Data", expanded=False):
+                    st.json({
+                        "PO Data": item["po"],
+                        "Receiving Log (GRN)": item["grn"],
+                        "Vendor Invoice": item["invoice"]
+                    })
+                st.info(f"**Vendor:** {item['vendor']}\n\n**Billed Amount:** ${item['invoice'].get('total_amount', 0):,.2f}")
             
             # RIGHT COLUMN: Audit workpaper & decision
             with c2:
                 st.markdown("**📝 Audit Workpaper Notes:**")
-                st.text(item["audit_notes"])
+                st.info(item["audit_notes"])
                 
-                st.markdown("**Analysis Details:**")
-                st.json({
-                    "Exception Category": item["exception_type"],
-                    "Discrepancy Amount": f"${item['discrepancy_amount']}",
-                    "Confidence Score": f"{item['confidence_score']:.2%}",
-                    "Severity": item['severity']
-                })
+                st.markdown("**Analysis Summary:**")
+                # FIX 3: Replaced raw JSON display with human-readable text bullets
+                st.write(f"• **Exception Category:** `{item['exception_type']}`")
+                st.write(f"• **Discrepancy Amount:** `${item['discrepancy_amount']}`")
+                st.write(f"• **Confidence Score:** `{item['confidence_score']:.2%}`")
+                st.write(f"• **Severity Level:** `{item['severity'].upper()}`")
             
             # APPROVAL BUTTONS
             st.markdown("---")
@@ -422,8 +427,12 @@ with tab1:
     audit_logs = neat_logger.get_audit_trail()
     
     if audit_logs:
+        # FIX 4: Individual log expanders for audit trail tab
         for log in audit_logs:
-            st.json(log)
+            event_title = log.get('event_type', 'System Event').replace('_', ' ').title()
+            log_id = log.get('log_id', 'LOG-000')
+            with st.expander(f"📌 {event_title} ({log_id})"):
+                st.json(log)
     else:
         st.info("No logs yet. Run an audit batch first.")
 
@@ -436,19 +445,20 @@ with tab2:
     col2.metric("Invoices Processed", len(compliance_report["invoices_processed"]))
     col3.metric("Errors", compliance_report["errors"])
     
-    # FIXED: Use correct key names from neatlogs_integration.py
-    st.json({
-        "Auto-Approved": compliance_report["invoices_auto_approved"],  # ← FIXED!
-        "Exceptions Flagged": compliance_report["exceptions_flagged"],
-        "Human Approved": compliance_report["invoices_approved"],      # ← FIXED!
-        "Human Rejected": compliance_report["invoices_rejected"],      # ← FIXED!
-        "GL Postings": compliance_report["gl_postings"],
-        "Payments Triggered": compliance_report["payments_triggered"],
-        "Error Rate": f"{compliance_report['error_rate']}%",
-        "Avg Confidence": f"{compliance_report['average_confidence_score']:.2%}",
-        "Total Amount": f"${compliance_report['total_amount_processed']:,.2f}",
-        "Event Breakdown": compliance_report["event_breakdown"]
-    })
+    # FIX 5: Compliance details inside expander for clean reporting UI
+    with st.expander("📊 View Detailed Compliance Metrics Payload", expanded=True):
+        st.json({
+            "Auto-Approved": compliance_report["invoices_auto_approved"],
+            "Exceptions Flagged": compliance_report["exceptions_flagged"],
+            "Human Approved": compliance_report["invoices_approved"],
+            "Human Rejected": compliance_report["invoices_rejected"],
+            "GL Postings": compliance_report["gl_postings"],
+            "Payments Triggered": compliance_report["payments_triggered"],
+            "Error Rate": f"{compliance_report['error_rate']}%",
+            "Avg Confidence": f"{compliance_report['average_confidence_score']:.2%}",
+            "Total Amount": f"${compliance_report['total_amount_processed']:,.2f}",
+            "Event Breakdown": compliance_report["event_breakdown"]
+        })
 
 with tab3:
     export_format = st.radio("Export Format", ["JSON", "CSV"])
