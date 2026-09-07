@@ -101,37 +101,30 @@ Manual AP reconciliation costs enterprise finance teams $12–$15 per invoice, t
 
 ## Getting Started (Run Locally)
 
+## 🚀 Quick Start / How to Run Locally
+
+Follow these simple steps to run **Autonomous CFO** on your local machine.
+
 ### Prerequisites
-- Python 3.10 or higher
-- Git
+- **Python 3.9+** installed
+- **Git** installed
 
-### 1. Clone the repository
-git clone https://github.com/Dhruv2020-code/autonomous-cfo.git
+Open your terminal/PowerShell and run:
+```bash
+git clone [https://github.com/Dhruv2020-code/autonomous-cfo.git](https://github.com/Dhruv2020-code/autonomous-cfo.git)
+
 cd autonomous-cfo
 
-### 2. Create and activate a virtual environment
-python -m venv venv
-venv\Scripts\activate        # Windows
-source venv/bin/activate     # Mac/Linux
+cd "Desktop/SYNDICATE HACKTHON"
 
-### 3. Install dependencies
 pip install -r requirements.txt
 
-### 4. Set up environment variables
-Create a `.env` file in the project root and add:
+TENSORMUX_API_KEY=your_tensormux_api_key_here
 
-TENSORMUX_API_KEY=your_api_key_here
+Run the main Streamlit application:
 
-(Get an API key from [wherever TensorMux/OpenAI key comes from])
-
-
-### 5. Run the app
 streamlit run app.py
 
-The app will open at http://localhost:8501
+(Optional: To run the standalone demo interface, use):
 
-###RUN FASTLY
-git clone https://github.com/Dhruv2020-code/autonomous-cfo.git
-cd autonomous-cfo
-pip install -r requirements.txt
-streamlit run app.py
+streamlit run demo.py
