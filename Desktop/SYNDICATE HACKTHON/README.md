@@ -97,8 +97,28 @@ Manual AP reconciliation costs enterprise finance teams $12–$15 per invoice, t
 |                       - Immutable General Ledger (GL) Audit Trail                 |
 +-----------------------------------------------------------------------------------+
 
-HOW TO DOWNLOAD AND USE THIS TOOL LOCALLY//
 
-pip install streamlit openai
 
+## How to Download and Use This Tool Locally
+
+### 1. Clone the repository
+git clone https://github.com/Dhruv2020-code/autonomous-cfo.git
+cd autonomous-cfo
+
+### 2. Create a virtual environment (recommended)
+python -m venv venv
+venv\Scripts\activate      # Windows
+source venv/bin/activate   # Mac/Linux
+
+### 3. Install dependencies
+pip install -r requirements.txt
+
+### 4. Set up your API key
+Create a file named `.env` in the project root and add:
+TENSORMUX_API_KEY=your_api_key_here
+# or whichever key your app.py actually reads
+
+### 5. Run the app
 streamlit run app.py
+
+The app will open automatically at http://localhost:8501
