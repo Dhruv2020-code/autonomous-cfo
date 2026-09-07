@@ -124,7 +124,14 @@ TENSORMUX_API_KEY=your_api_key_here
 
 (Get an API key from [wherever TensorMux/OpenAI key comes from])
 
+
 ### 5. Run the app
 streamlit run app.py
 
 The app will open at http://localhost:8501
+
+###RUN FASTLY
+git clone https://github.com/Dhruv2020-code/autonomous-cfo.git
+cd autonomous-cfo
+pip install -r requirements.txt
+streamlit run app.py
